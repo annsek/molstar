@@ -764,7 +764,19 @@ export function volumeColorThemeForNode(node: MolstarSubtree<'volume_representat
             name: 'uniform',
             params: { value: decodeColor(DefaultColor) },
         };
-    } if (children.length === 1) {
-        return colorThemeForNode(children[0], context);
+    }
+
+    if (children.length === 1) {
+        const child = children[0];
+        // Allow setting Mol* color-theme for volumes via custom fields on the color node
+        // Example in MVS: { kind: 'color', custom: { molstar_color_theme_name: 'volume-value', molstar_color_theme_params: { ... } } }
+        if (hasMolStarUseDefaultColoring(child)) {
+            if (child.custom?.molstar_use_default_coloring) return undefined; // use provider default
+            return {
+                name: child.custom?.molstar_color_theme_name ?? undefined,
+                params: child.custom?.molstar_color_theme_params ?? {},
+            } as any;
+        }
+        return colorThemeForNode(child, context) as any;
     }
 }
