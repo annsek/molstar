@@ -54,7 +54,9 @@ jobs:
       - name: Copy examples into build output
         run: |
           mkdir -p build/viewer/examples/mvs
-          cp examples/mvs/hiv.mvsx build/viewer/examples/mvs/
+          cp examples/mvs/hiv_1.mvsx build/viewer/examples/mvs/
+          cp examples/mvs/hiv_2.mvsx build/viewer/examples/mvs/
+          cp examples/mvs/hiv_3.mvsx build/viewer/examples/mvs/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
